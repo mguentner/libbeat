@@ -11,6 +11,12 @@ The library comes with a sample Qt Application, simply run
 
 to build it.
 
+Screenshot[http://img689.imageshack.us/i/soundyser.png/]
+
+The blue circle indicates a snare drum beat.
+The yellow circle indicates a drum bass beat.
+The red areas indicate a beat in the corresponding subband.
+
 = License
 
 Copyright @2011 Maximilian Güntner <maximilian.guentner@gmail.com> under the GPL v3
