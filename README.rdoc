@@ -2,6 +2,8 @@
 
 This is libbeat, a lightweight beat detection library. It currently features alsa input and uses fftw[http://www.fftw.org/] to process the samples. It uses some Qt4-proprietary technology like timers and Qthread. These are currently a dependecy.
 
+The software is still in development and pre-alpha.
+
 == Sample Application
 
 The library comes with a sample Qt Application, simply run
