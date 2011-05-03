@@ -1,6 +1,6 @@
 = libbeat
 
-This is libbeat, a lightweight beat detection library. It currently features alsa input and uses fftw[http://www.fftw.org/] to process the samples. It uses some Qt-proprietary technology like timers and Qthread. These are currently a dependecy.
+This is libbeat, a lightweight beat detection library. It currently features alsa input and uses fftw[http://www.fftw.org/] to process the samples. It uses some Qt4-proprietary technology like timers and Qthread. These are currently a dependecy.
 
 == Sample Application
 
@@ -11,11 +11,13 @@ The library comes with a sample Qt Application, simply run
 
 to build it.
 
+Make sure you have fftw3, alsa and Qt4 installed!
+
 Screenshot[http://img689.imageshack.us/i/soundyser.png/]
 
-The blue circle indicates a snare drum beat.
-The yellow circle indicates a drum bass beat.
-The red areas indicate a beat in the corresponding subband.
+* The blue circle indicates a snare drum beat.
+* The yellow circle indicates a drum bass beat.
+* The red areas indicate a beat in the corresponding subband.
 
 = License
 
