@@ -22,22 +22,22 @@
 #include <alsa/asoundlib.h>
 #include <error.h>
 #include <inttypes.h>
+#include "soundrecorder.h"
 #include "soundbuffer.h"
 #define DEFAULT_SAMPLERATE 44100
 //How many samples we want to record with one alsa call
 #define RECORD_SIZE 2048
 
-class AlsaRecorder : public QThread
+class AlsaRecorder : public SoundRecorder
 {
 public:
     AlsaRecorder(uint32_t samplerate=DEFAULT_SAMPLERATE,uint8_t channels=2,SoundBuffer *mySoundBuffer=NULL);
-    ~AlsaRecorder();
+    virtual ~AlsaRecorder();
     uint32_t get_SampleRate(){return samplerate;};
     bool initSound();
     void closeSound();
-    void process_data();
-    void run();
-    void stop();
+    virtual void run();
+    virtual void stop();
 signals:
 
 public slots:
@@ -47,6 +47,7 @@ private:
     uint32_t samplerate;
     SoundBuffer *mySoundBuffer;
     bool capture_enabled;
+    uint8_t channels;
 };
 
 #endif // ALSARECORDER_H

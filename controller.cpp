@@ -22,7 +22,8 @@ Controller::Controller(QObject *parent) : QObject(parent)
     myBuffer = new SoundBuffer(4096);
     myAnalyser = new BeatAnalyser(128,44100,4096);
 #ifdef USE_ALSA
-    myRecorder = new AlsaRecorder(44100,2,myBuffer);
+    dynamic_cast<AlsaRecorder*>(myRecorder);
+    myRecorder = new AlsaRecorder(44100,1,myBuffer);
 #endif
     myFFT = new FFT(4096);
     myFFT->setSoundBuffer(myBuffer);
@@ -41,13 +42,14 @@ void Controller::start()
     if(!m_enabled)
     {
         myRecorder->start();
-        //We want to process every 2ms
+        //We want to process every 5 ms
         timerID = startTimer(5);
         m_enabled=true;
     }
 }
 void Controller::timerEvent(QTimerEvent *event)
 {
+    Q_UNUSED(event);
     myFFT->process_data();
     myAnalyser->process_data();
 }

@@ -20,7 +20,7 @@ TestFFTDisplay::TestFFTDisplay(QWidget *parent) :
     QWidget(parent)
 {
     //Update this one every 5ms
-    startTimer(5);
+    startTimer(25);
 }
 
 void TestFFTDisplay::paintEvent(QPaintEvent *)
@@ -50,12 +50,12 @@ void TestFFTDisplay::paintEvent(QPaintEvent *)
         if(myController.getAnalyser()->get_drum_beat())
         {
             myPainter.setBrush(Qt::yellow);
-            myPainter.drawEllipse(QPoint(width()*0.30,height()/2),width()*0.1,width()*0.1);
+            myPainter.drawEllipse(QPointF(width()*0.30,height()/2),width()*0.1,width()*0.1);
         }
         if(myController.getAnalyser()->get_snare_beat())
         {
             myPainter.setBrush(Qt::blue);
-            myPainter.drawEllipse(QPoint(width()*0.70,height()/2),width()*0.1,width()*0.1);
+            myPainter.drawEllipse(QPointF(width()*0.70,height()/2),width()*0.1,width()*0.1);
         }
     }
 }

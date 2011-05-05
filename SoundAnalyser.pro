@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     testfftdisplay.cpp \
     soundbuffer.cpp \
     subband.cpp \
-    beatanalyser.cpp
+    beatanalyser.cpp \
+    soundrecorder.cpp
 
 HEADERS  += mainwindow.h \
     alsarecorder.h \
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h \
     testfftdisplay.h \
     soundbuffer.h \
     subband.h \
-    beatanalyser.h
+    beatanalyser.h \
+    soundrecorder.h
 
 FORMS    += mainwindow.ui
 

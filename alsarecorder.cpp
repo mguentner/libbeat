@@ -21,6 +21,7 @@ AlsaRecorder::AlsaRecorder(uint32_t samplerate, uint8_t channels, SoundBuffer *m
 {
     this->samplerate=samplerate;
     this->mySoundBuffer=mySoundBuffer;
+    this->channels=channels;
     capture_enabled=false;
 }
 
@@ -77,7 +78,7 @@ bool AlsaRecorder::initSound()
                  snd_strerror (err));
         return false;
     }
-    if ((err = snd_pcm_hw_params_set_channels (capture_handle, hw_params, 1)) < 0)
+    if ((err = snd_pcm_hw_params_set_channels (capture_handle, hw_params, channels)) < 0)
     {
         qWarning("cannot set channel count (%s)\n",
                  snd_strerror (err));

@@ -15,40 +15,12 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
-#define USE_ALSA
+#include "soundrecorder.h"
 
-#ifdef USE_ALSA
-#include "alsarecorder.h"
-#endif
-#include "fft.h"
-#include "soundbuffer.h"
-#include "beatanalyser.h"
-#include <QObject>
-#include <QTimerEvent>
-class Controller : public QObject
+SoundRecorder::SoundRecorder()
 {
-    Q_OBJECT
-public:
-    explicit Controller (QObject *parent = 0);
-    ~Controller();
-    FFT* getFFT(){return myFFT;};
-    BeatAnalyser* getAnalyser(){return myAnalyser;};
-    void start();
-    void stop();
-    bool getEnabled();
+}
 
-private:
-    SoundRecorder *myRecorder;
-    FFT *myFFT;
-    SoundBuffer *myBuffer;
-    BeatAnalyser *myAnalyser;
-    bool m_enabled;
-    int timerID;
-protected:
-    void timerEvent(QTimerEvent *event);
-
-};
-
-#endif // CONTROLLER_H
+SoundRecorder::~SoundRecorder()
+{
+}
