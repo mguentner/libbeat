@@ -43,7 +43,12 @@ double SubBand::average()
 double SubBand::get_all_time_maximum()
 {
     //With every call of this method we gradually lower the maximum to quickly adapt to changes in the input
-    all_time_maximum*=0.997;
+    all_time_maximum*=0.99995;
+    return all_time_maximum;
+}
+double SubBand::get_all_time_maximum_raw()
+{
+    //This function is for display purpuse only. No recalibration will be performed
     return all_time_maximum;
 }
 void SubBand::reset_maximum()

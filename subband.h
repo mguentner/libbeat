@@ -33,6 +33,8 @@ public:
     void log(double value);
     double average();
     double get_all_time_maximum();
+    double get_all_time_maximum_raw();
+
     void reset_maximum();
 private:
     QList<double> myHistory;
