@@ -34,7 +34,7 @@ public slots:
     void start();
     void stop();
 private:
-    Controller myController;
+    Controller *myController;
 protected:
     void paintEvent(QPaintEvent *);
     void timerEvent(QTimerEvent *);
