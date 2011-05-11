@@ -17,12 +17,14 @@
 */
 #include "alsarecorder.h"
 
-AlsaRecorder::AlsaRecorder(uint32_t samplerate, uint8_t channels, SoundBuffer *mySoundBuffer)
+AlsaRecorder::AlsaRecorder(uint32_t samplerate, uint8_t channels, SoundBuffer *mySoundBuffer,uint16_t recordsize)
 {
     this->samplerate=samplerate;
     this->mySoundBuffer=mySoundBuffer;
     this->channels=channels;
+    this->recordsize=recordsize;
     capture_enabled=false;
+    signal = new int16_t[recordsize*channels];
 }
 
 AlsaRecorder::~AlsaRecorder()
@@ -99,7 +101,6 @@ void AlsaRecorder::closeSound()
 }
 void AlsaRecorder::run()
 {
-    int16_t signal[RECORD_SIZE]={0};
     int err;
     //stop will set this to false
     capture_enabled=true;
@@ -107,7 +108,7 @@ void AlsaRecorder::run()
     {
         while(capture_enabled)
         {
-            if ((err = snd_pcm_readi (capture_handle, signal, RECORD_SIZE)) != RECORD_SIZE)
+            if ((err = snd_pcm_readi (capture_handle, signal, recordsize)) != recordsize)
             {
                 if ((err = snd_pcm_prepare (capture_handle)) < 0)
                 {
@@ -117,9 +118,12 @@ void AlsaRecorder::run()
                 }
             }
             //Write data to Buffer
-            for(uint16_t i=0;i<RECORD_SIZE;i++)
+            for(uint16_t i=0;i<recordsize*channels;i+=channels)
             {
-                mySoundBuffer->write(i,signal[i]);
+                uint32_t sum=0;
+                for(uint8_t j=0;j<channels;j++)
+                    sum+=signal[i+j];
+                mySoundBuffer->write(i/channels,(int16_t)sum/channels);
             }
         }
     }

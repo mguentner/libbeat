@@ -26,12 +26,12 @@
 #include "soundbuffer.h"
 #define DEFAULT_SAMPLERATE 44100
 //How many samples we want to record with one alsa call
-#define RECORD_SIZE 2048
+#define RECORD_SIZE 4096
 
 class AlsaRecorder : public SoundRecorder
 {
 public:
-    AlsaRecorder(uint32_t samplerate=DEFAULT_SAMPLERATE,uint8_t channels=2,SoundBuffer *mySoundBuffer=NULL);
+    AlsaRecorder(uint32_t samplerate=DEFAULT_SAMPLERATE,uint8_t channels=2,SoundBuffer *mySoundBuffer=NULL,uint16_t recordsize=4096);
     virtual ~AlsaRecorder();
     uint32_t get_SampleRate(){return samplerate;};
     bool initSound();
@@ -44,10 +44,13 @@ public slots:
 
 private:
     snd_pcm_t *capture_handle;
+    uint16_t recordsize;
     uint32_t samplerate;
     SoundBuffer *mySoundBuffer;
     bool capture_enabled;
     uint8_t channels;
+    int16_t *signal;
+
 };
 
 #endif // ALSARECORDER_H
