@@ -89,3 +89,8 @@ bool BeatAnalyser::get_snare_beat()
         tmp |= myBeats->at(i);
     return tmp;
 }
+SubBand* BeatAnalyser::getBand(uint16_t value)
+{
+    if(value < num_bands)
+        return mySubBands->at(value);
+}

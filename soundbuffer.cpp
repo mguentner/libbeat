@@ -35,8 +35,13 @@ int16_t SoundBuffer::average()
 }
 bool SoundBuffer::write(uint16_t pos,int16_t value)
 {
-        myBuffer[pos]=value;
-        return true;
+        if(pos < size)
+        {
+            myBuffer[pos]=value;
+            return true;
+        }
+        else
+            return false;
 }
 int16_t SoundBuffer::read(uint16_t pos)
 {

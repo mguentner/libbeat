@@ -17,15 +17,15 @@
 */
 #include "controller.h"
 
-Controller::Controller(QObject *parent) : QObject(parent)
+Controller::Controller(QObject *parent,uint16_t recordsize) : QObject(parent)
 {
-    myBuffer = new SoundBuffer(4096);
-    myAnalyser = new BeatAnalyser(128,44100,4096);
+    myBuffer = new SoundBuffer(recordsize);
+    myAnalyser = new BeatAnalyser(128,44100,recordsize);
 #ifdef USE_ALSA
     dynamic_cast<AlsaRecorder*>(myRecorder);
-    myRecorder = new AlsaRecorder(44100,1,myBuffer);
+    myRecorder = new AlsaRecorder(44100,2,myBuffer,recordsize);
 #endif
-    myFFT = new FFT(4096);
+    myFFT = new FFT(recordsize);
     myFFT->setSoundBuffer(myBuffer);
     myAnalyser->setFFT(myFFT);
     m_enabled=false;

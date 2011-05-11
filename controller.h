@@ -31,7 +31,7 @@ class Controller : public QObject
 {
     Q_OBJECT
 public:
-    explicit Controller (QObject *parent = 0);
+    explicit Controller (QObject *parent = 0,uint16_t recordsize=4096);
     ~Controller();
     FFT* getFFT(){return myFFT;};
     BeatAnalyser* getAnalyser(){return myAnalyser;};

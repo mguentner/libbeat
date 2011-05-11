@@ -21,12 +21,12 @@
 #include <inttypes.h>
 #include <cmath>
 #include "soundbuffer.h"
-#define USE_NO_WINDOW
+#define USE_HANNING
 #define CLEAR_NOISE
 class FFT
 {
 public:
-    FFT(uint16_t value);
+    FFT(uint16_t size);
     ~FFT();
     void setSoundBuffer(SoundBuffer *value){mySoundBuffer=value;};
     void process_data();

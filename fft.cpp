@@ -16,9 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "fft.h"
-FFT::FFT(uint16_t value=0)
+FFT::FFT(uint16_t size=0)
 {
-    size=value;
+    this->size=size;
     magnitude = new double[size/2];
     max_magnitude=0;
     /*We should use fftw_malloc instead of new since fftw_malloc aligns the memory or optimal speed*/

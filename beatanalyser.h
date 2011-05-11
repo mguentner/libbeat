@@ -38,6 +38,7 @@ public:
     /*get beats associated with instruments*/
     bool get_drum_beat();
     bool get_snare_beat();
+    SubBand* getBand(uint16_t value);
 
 private:
     uint16_t num_bands;
