@@ -15,11 +15,12 @@ to build it.
 
 Make sure you have fftw3, alsa and Qt4 installed!
 
-Screenshot[http://img689.imageshack.us/i/soundyser.png/]
+Screenshot[http://imageshack.us/m/402/3663/libbeat.png]
 
 * The blue circle indicates a snare drum beat.
 * The yellow circle indicates a drum bass beat.
 * The red areas indicate a beat in the corresponding subband.
+* The magenta rectangles represent the current detection threshold for the corresponding subband.
 
 = License
 
