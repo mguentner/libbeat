@@ -1,6 +1,6 @@
 /*
     This file is part of libbeat - a lightweight beat detection library
-    Copyright (C) 2011 <maximilian.guentner@gmail.com>
+    Copyright (c) 2011 by Maximilian Güntner <maximilian.guentner@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,10 +25,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(this->ui->startButton,SIGNAL(clicked()),ui->widget,SLOT(start()));
     connect(this->ui->stopButton,SIGNAL(clicked()),ui->widget,SLOT(stop()));
+    ui->startButton->setShortcut(QKeySequence(Qt::Key_F5));
+    ui->stopButton->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));
 
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::on_startButton_clicked()
+{
+    ui->startButton->setDown(true);
 }

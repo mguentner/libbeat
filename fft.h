@@ -1,6 +1,6 @@
 /*
     This file is part of libbeat - a lightweight beat detection library
-    Copyright (C) 2011 <maximilian.guentner@gmail.com>
+    Copyright (c) 2011 by Maximilian Güntner <maximilian.guentner@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include <inttypes.h>
 #include <cmath>
 #include "soundbuffer.h"
-#define USE_HANNING
+#define USE_NO_WINDOW
 #define CLEAR_NOISE
 class FFT
 {

@@ -1,6 +1,6 @@
 /*
     This file is part of libbeat - a lightweight beat detection library
-    Copyright (C) 2011 <maximilian.guentner@gmail.com>
+    Copyright (c) 2011 by Maximilian Güntner <maximilian.guentner@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+
+private slots:
+    void on_startButton_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -1,6 +1,6 @@
 /*
     This file is part of libbeat - a lightweight beat detection library
-    Copyright (C) 2011 <maximilian.guentner@gmail.com>
+    Copyright (c) 2011 by Maximilian Güntner <maximilian.guentner@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ BeatAnalyser::BeatAnalyser(uint16_t num_bands, uint32_t samplerate, uint16_t rec
     mySubBands = new QVector<SubBand*>;
     for(uint16_t i=0;i<num_bands;i++)
     {
-        SubBand *tmp = new SubBand(samplerate/recordsize);
+        SubBand *tmp = new SubBand(4*samplerate/recordsize);
         mySubBands->append(tmp);
     }
     myBeats = new QVector<bool> (num_bands,false);
