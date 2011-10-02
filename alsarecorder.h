@@ -21,7 +21,7 @@
 #include <QThread>
 #include <alsa/asoundlib.h>
 #include <error.h>
-#include <inttypes.h>
+#include <stdint.h>
 #include "soundrecorder.h"
 #include "soundbuffer.h"
 #define DEFAULT_SAMPLERATE 44100
@@ -31,11 +31,9 @@
 class AlsaRecorder : public SoundRecorder
 {
 public:
-    AlsaRecorder(uint32_t samplerate=DEFAULT_SAMPLERATE,uint8_t channels=2,SoundBuffer *mySoundBuffer=NULL,uint16_t recordsize=4096);
+    AlsaRecorder(uint32_t samplerate=DEFAULT_SAMPLERATE,uint8_t channels=2,SoundBuffer *mySoundBuffer=NULL,uint16_t recordsize=RECORD_SIZE);
     virtual ~AlsaRecorder();
-    uint32_t get_SampleRate(){return samplerate;};
-    bool initSound();
-    void closeSound();
+    uint32_t get_SampleRate(){return samplerate;}
     virtual void run();
     virtual void stop();
 signals:
@@ -50,6 +48,8 @@ private:
     bool capture_enabled;
     uint8_t channels;
     int16_t *signal;
+    bool initSound();
+    void closeSound();
 
 };
 

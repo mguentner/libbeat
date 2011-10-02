@@ -74,6 +74,9 @@ bool BeatAnalyser::get_drum_beat()
     uint16_t freq_per_band=samplerate/num_bands/2;
     uint32_t low_limit=50/freq_per_band;
     uint32_t high_limit=200/freq_per_band;
+    if(high_limit == 0)
+       high_limit=1; /*If we have few bands, just take the first one*/
+
     for(uint16_t i=low_limit;i<high_limit;i++)
         tmp |= myBeats->at(i);
     return tmp;
@@ -93,4 +96,6 @@ SubBand* BeatAnalyser::getBand(uint16_t value)
 {
     if(value < num_bands)
         return mySubBands->at(value);
+    else
+        return NULL;
 }

@@ -21,7 +21,7 @@ FFT::FFT(uint16_t size=0)
     this->size=size;
     magnitude = new double[size/2];
     max_magnitude=0;
-    /*We should use fftw_malloc instead of new since fftw_malloc aligns the memory or optimal speed*/
+    /*We should use fftw_malloc instead of new since fftw_malloc aligns the memory for optimal speed*/
     output_signal = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * size);
     input_signal = new double[size];
 

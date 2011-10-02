@@ -20,10 +20,14 @@
 Controller::Controller(QObject *parent,uint16_t recordsize) : QObject(parent)
 {
     myBuffer = new SoundBuffer(recordsize);
-    myAnalyser = new BeatAnalyser(128,44100,recordsize);
+    myAnalyser = new BeatAnalyser(96,44100,recordsize);
 #ifdef USE_ALSA
     dynamic_cast<AlsaRecorder*>(myRecorder);
     myRecorder = new AlsaRecorder(44100,2,myBuffer,recordsize);
+#endif
+#ifdef USE_PULSE
+    dynamic_cast<PulseRecorder*>(myRecorder);
+    myRecorder = new PulseRecorder(44100,2,myBuffer,recordsize);
 #endif
     myFFT = new FFT(recordsize);
     myFFT->setSoundBuffer(myBuffer);

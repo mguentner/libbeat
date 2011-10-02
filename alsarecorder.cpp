@@ -29,6 +29,7 @@ AlsaRecorder::AlsaRecorder(uint32_t samplerate, uint8_t channels, SoundBuffer *m
 
 AlsaRecorder::~AlsaRecorder()
 {
+    delete[] signal;
     capture_enabled=false;
     //Wait until run(); has finished
     wait();
@@ -40,7 +41,7 @@ void AlsaRecorder::stop()
 bool AlsaRecorder::initSound()
 {
     snd_pcm_hw_params_t *hw_params;
-    char pcm_name[]="hw:0,0";
+    char pcm_name[]="default";
     int err;
 
 

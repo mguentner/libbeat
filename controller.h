@@ -17,10 +17,13 @@
 */
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-#define USE_ALSA
+#define USE_PULSE
 
 #ifdef USE_ALSA
 #include "alsarecorder.h"
+#endif
+#ifdef USE_PULSE
+#include "pulserecorder.h"
 #endif
 #include "fft.h"
 #include "soundbuffer.h"
@@ -33,8 +36,8 @@ class Controller : public QObject
 public:
     explicit Controller (QObject *parent = 0,uint16_t recordsize=4096);
     ~Controller();
-    FFT* getFFT(){return myFFT;};
-    BeatAnalyser* getAnalyser(){return myAnalyser;};
+    FFT* getFFT(){return myFFT;}
+    BeatAnalyser* getAnalyser(){return myAnalyser;}
     void start();
     void stop();
     bool getEnabled();
