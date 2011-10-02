@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     soundbuffer.cpp \
     subband.cpp \
     beatanalyser.cpp \
-    soundrecorder.cpp
+    soundrecorder.cpp \
+    pulserecorder.cpp
 
 HEADERS  += mainwindow.h \
     alsarecorder.h \
@@ -29,8 +30,11 @@ HEADERS  += mainwindow.h \
     soundbuffer.h \
     subband.h \
     beatanalyser.h \
-    soundrecorder.h
+    soundrecorder.h \
+    pulserecorder.h
 
 FORMS    += mainwindow.ui
 
-LIBS += -lasound -lfftw3
+LIBS += -lasound -lfftw3 -lpulse-simple -lpulse
+
+
