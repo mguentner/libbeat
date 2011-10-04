@@ -37,6 +37,10 @@ FORMS    += mainwindow.ui
 
 LIBS += -lasound -lfftw3 -lpulse-simple -lpulse
 
+OTHER_FILES += \
+    soundanalyser.png
+
+
 
 
 
