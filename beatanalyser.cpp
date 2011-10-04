@@ -51,7 +51,6 @@ void BeatAnalyser::process_data()
         if(mySubBands->at(i)->average() < sum && mySubBands->at(i)->get_all_time_maximum()*0.8 < sum)
         {
             myBeats->replace(i,true);
-            //qDebug() << sum;
         }
     }
 }
