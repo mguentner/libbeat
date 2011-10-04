@@ -15,12 +15,12 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "controller.h"
+#include "beatcontroller.h"
 
-Controller::Controller(QObject *parent,uint16_t recordsize) : QObject(parent)
+BeatController::BeatController(QObject *parent,uint16_t recordsize) : QObject(parent)
 {
     myBuffer = new SoundBuffer(recordsize);
-    myAnalyser = new BeatAnalyser(96,44100,recordsize);
+    myAnalyser = new BeatAnalyser(192,44100,recordsize);
 #ifdef USE_ALSA
     dynamic_cast<AlsaRecorder*>(myRecorder);
     myRecorder = new AlsaRecorder(44100,2,myBuffer,recordsize);
@@ -34,14 +34,14 @@ Controller::Controller(QObject *parent,uint16_t recordsize) : QObject(parent)
     myAnalyser->setFFT(myFFT);
     m_enabled=false;
 }
-Controller::~Controller()
+BeatController::~BeatController()
 {
     delete myFFT;
     delete myRecorder;
     delete myBuffer;
     delete myAnalyser;
 }
-void Controller::start()
+void BeatController::start()
 {
     if(!m_enabled)
     {
@@ -51,14 +51,14 @@ void Controller::start()
         m_enabled=true;
     }
 }
-void Controller::timerEvent(QTimerEvent *event)
+void BeatController::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
     myFFT->process_data();
     myAnalyser->process_data();
 }
 
-void Controller::stop()
+void BeatController::stop()
 {
     if(m_enabled)
     {
@@ -67,7 +67,7 @@ void Controller::stop()
         m_enabled=false;
     }
 }
-bool Controller::getEnabled()
+bool BeatController::getEnabled()
 {
     return m_enabled;
 }

@@ -14,27 +14,31 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     alsarecorder.cpp \
     fft.cpp \
-    controller.cpp \
     testfftdisplay.cpp \
     soundbuffer.cpp \
     subband.cpp \
     beatanalyser.cpp \
     soundrecorder.cpp \
-    pulserecorder.cpp
+    pulserecorder.cpp \
+    beatcontroller.cpp
 
 HEADERS  += mainwindow.h \
     alsarecorder.h \
     fft.h \
-    controller.h \
     testfftdisplay.h \
     soundbuffer.h \
     subband.h \
     beatanalyser.h \
     soundrecorder.h \
-    pulserecorder.h
+    pulserecorder.h \
+    beatcontroller.h
 
 FORMS    += mainwindow.ui
 
 LIBS += -lasound -lfftw3 -lpulse-simple -lpulse
+
+
+
+
 
 

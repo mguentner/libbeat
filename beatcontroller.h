@@ -30,14 +30,15 @@
 #include "beatanalyser.h"
 #include <QObject>
 #include <QTimerEvent>
-class Controller : public QObject
+class BeatController : public QObject
 {
     Q_OBJECT
 public:
-    explicit Controller (QObject *parent = 0,uint16_t recordsize=4096);
-    ~Controller();
+    explicit BeatController (QObject *parent = 0,uint16_t recordsize=4096);
+    ~BeatController();
     FFT* getFFT(){return myFFT;}
     BeatAnalyser* getAnalyser(){return myAnalyser;}
+    SoundBuffer* getBuffer(){return myBuffer;}
     void start();
     void stop();
     bool getEnabled();
