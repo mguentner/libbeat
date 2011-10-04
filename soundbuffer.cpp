@@ -33,6 +33,19 @@ int16_t SoundBuffer::average()
     sum/=size;
     return (int16_t)sum;
 }
+uint16_t SoundBuffer::average_pwr()
+{
+    uint32_t sum=0;
+    for(uint16_t i=0;i<size;i++)
+    {
+        if(myBuffer[i] < 0)
+            sum+=-1*myBuffer[i];
+        else
+            sum+=myBuffer[i];
+    }
+    sum/=size;
+    return (uint16_t)sum;
+}
 bool SoundBuffer::write(uint16_t pos,int16_t value)
 {
         if(pos < size)
