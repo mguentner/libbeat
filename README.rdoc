@@ -13,14 +13,15 @@ The library comes with a sample Qt Application, simply run
 
 to build it.
 
-Make sure you have fftw3, alsa and Qt4 installed!
+Make sure you have fftw3, alsa (or PulseAudio) and Qt4 installed!
 
-Screenshot[http://imageshack.us/m/402/3663/libbeat.png]
+Screenshot[https://github.com/mguentner/libbeat/raw/master/soundanalyser.png]
 
 * The blue circle indicates a snare drum beat.
 * The yellow circle indicates a drum bass beat.
 * The red areas indicate a beat in the corresponding subband.
 * The magenta rectangles represent the current detection threshold for the corresponding subband.
+
 
 = License
 
