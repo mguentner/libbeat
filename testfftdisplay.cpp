@@ -19,7 +19,7 @@
 TestFFTDisplay::TestFFTDisplay(QWidget *parent) :
     QWidget(parent)
 {
-    myController = new Controller(0,4096);
+    myController = new BeatController(0,4096);
     //Update this one every 5ms
     startTimer(25);
 }
@@ -66,6 +66,14 @@ void TestFFTDisplay::paintEvent(QPaintEvent *)
             myPainter.setBrush(Qt::blue);
             myPainter.drawEllipse(QPointF(width()*0.70,height()/2),width()*0.1,width()*0.1);
         }
+        //Draw volume frame
+        myPainter.setBrush(Qt::NoBrush);
+        myPainter.setPen(Qt::black);
+        myPainter.drawRect(QRectF(0.89*width(), 0.92*height(), 0.07*width(), -0.52*height()));
+        //Draw volume
+        myPainter.setBrush(Qt::green);
+        myPainter.setPen(Qt::black);
+        myPainter.drawRect(QRectF(0.90*width(), 0.90*height(), 0.05*width(), (log(myController->getBuffer()->average_pwr())/log(65536))*-0.50*height()));
     }
 }
 void TestFFTDisplay::timerEvent(QTimerEvent *)

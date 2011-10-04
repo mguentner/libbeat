@@ -21,7 +21,7 @@
 #include <QWidget>
 #include <QPainter>
 #include "cmath"
-#include "controller.h"
+#include "beatcontroller.h"
 class TestFFTDisplay : public QWidget
 {
     Q_OBJECT
@@ -34,7 +34,7 @@ public slots:
     void start();
     void stop();
 private:
-    Controller *myController;
+    BeatController *myController;
 protected:
     void paintEvent(QPaintEvent *);
     void timerEvent(QTimerEvent *);
