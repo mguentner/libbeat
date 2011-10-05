@@ -20,7 +20,7 @@ TestFFTDisplay::TestFFTDisplay(QWidget *parent) :
     QWidget(parent)
 {
     myController = new BeatController(0,4096);
-    //Update this one every 5ms
+    //Update this one every 25ms
     startTimer(25);
 }
 
