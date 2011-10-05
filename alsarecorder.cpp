@@ -121,7 +121,7 @@ void AlsaRecorder::run()
             //Write data to Buffer
             for(uint16_t i=0;i<recordsize*channels;i+=channels)
             {
-                uint32_t sum=0;
+                int32_t sum=0;
                 for(uint8_t j=0;j<channels;j++)
                     sum+=signal[i+j];
                 mySoundBuffer->write(i/channels,(int16_t)sum/channels);
