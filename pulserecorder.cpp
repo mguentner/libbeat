@@ -39,7 +39,7 @@ void PulseRecorder::stop()
 }
 bool PulseRecorder::initSound()
 {
-    ss.format= PA_SAMPLE_S16NE;
+    ss.format= PA_SAMPLE_S16LE;
     ss.channels=channels;
     ss.rate=samplerate;
     s = pa_simple_new(NULL, "libbeat",PA_STREAM_RECORD,NULL,"Sound Processing",&ss,NULL,NULL,NULL);
@@ -54,13 +54,13 @@ void PulseRecorder::closeSound()
 }
 void PulseRecorder::run()
 {
-    capture_enabled=true;
     if(initSound())
     {
+        capture_enabled=true;
         int error;
         while(capture_enabled)
         {
-            if (pa_simple_read(s,signal,recordsize,&error) < 0)
+            if (pa_simple_read(s,signal,recordsize*channels*2,&error) < 0)
             {
                 qWarning("pa_simple_read() failed: %s\n", pa_strerror(error));
                 capture_enabled=false;
@@ -68,13 +68,13 @@ void PulseRecorder::run()
             //Write data to Buffer
             for(uint16_t i=0;i<recordsize*channels;i+=channels)
             {
-                uint32_t sum=0;
+                int32_t sum=0;
                 for(uint8_t j=0;j<channels;j++)
                     sum+=signal[i+j];
                 mySoundBuffer->write(i/channels,(int16_t)sum/channels);
             }
         }
     }
+    capture_enabled=false;
     closeSound();
-
 }
