@@ -28,7 +28,7 @@ class FFT
 public:
     FFT(uint16_t size);
     ~FFT();
-    void setSoundBuffer(SoundBuffer *value){mySoundBuffer=value;};
+    void setSoundBuffer(SoundBuffer *value){mySoundBuffer=value;}
     void process_data();
     double get_element_r(uint16_t pos);
     double get_element_i(uint16_t pos);

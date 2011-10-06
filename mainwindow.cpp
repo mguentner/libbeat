@@ -25,9 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(this->ui->startButton,SIGNAL(clicked()),ui->widget,SLOT(start()));
     connect(this->ui->stopButton,SIGNAL(clicked()),ui->widget,SLOT(stop()));
-    ui->startButton->setShortcut(QKeySequence(Qt::Key_F5));
-    ui->stopButton->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));
-
 }
 
 MainWindow::~MainWindow()

@@ -27,17 +27,19 @@ class TestFFTDisplay : public QWidget
     Q_OBJECT
 public:
     explicit TestFFTDisplay(QWidget *parent = 0);
-    //Controller* getController(){return &myController;};
-signals:
 
 public slots:
     void start();
     void stop();
+
 private:
     BeatController *myController;
+
 protected:
     void paintEvent(QPaintEvent *);
-    void timerEvent(QTimerEvent *);
+
+private slots:
+    void drawNewData();
 
 };
 

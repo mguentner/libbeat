@@ -26,12 +26,15 @@
 
 class PulseRecorder : public SoundRecorder
 {
+    Q_OBJECT
+
 public:
     PulseRecorder(uint32_t samplerate,uint8_t channels,SoundBuffer *mySoundBuffer,uint16_t recordsize);
     virtual ~PulseRecorder();
     uint32_t get_SampleRate(){return samplerate;}
     virtual void run();
     virtual void stop();
+//Variables
 private:
     pa_simple *s;
     pa_sample_spec ss;
@@ -41,6 +44,7 @@ private:
     uint32_t samplerate;
     bool capture_enabled;
     uint8_t channels;
+//Methods
 private:
     bool initSound();
     void closeSound();

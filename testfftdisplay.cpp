@@ -20,8 +20,8 @@ TestFFTDisplay::TestFFTDisplay(QWidget *parent) :
     QWidget(parent)
 {
     myController = new BeatController(0,4096);
-    //Update this one every 25ms
-    startTimer(25);
+    //Draw when processed and analysed data is ready to be displayed
+    connect(myController,SIGNAL(processingDone()),this,SLOT(drawNewData()));
 }
 
 void TestFFTDisplay::paintEvent(QPaintEvent *)
@@ -76,7 +76,7 @@ void TestFFTDisplay::paintEvent(QPaintEvent *)
         myPainter.drawRect(QRectF(0.90*width(), 0.90*height(), 0.05*width(), (log(myController->getBuffer()->average_pwr())/log(65536))*-0.50*height()));
     }
 }
-void TestFFTDisplay::timerEvent(QTimerEvent *)
+void TestFFTDisplay::drawNewData()
 {
     update();
 }

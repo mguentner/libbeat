@@ -28,16 +28,15 @@
 
 class AlsaRecorder : public SoundRecorder
 {
+    Q_OBJECT
+
 public:
     AlsaRecorder(uint32_t samplerate,uint8_t channels,SoundBuffer *mySoundBuffer,uint16_t recordsize);
     virtual ~AlsaRecorder();
     uint32_t get_SampleRate(){return samplerate;}
     virtual void run();
     virtual void stop();
-signals:
-
-public slots:
-
+//Variables
 private:
     snd_pcm_t *capture_handle;
     uint16_t recordsize;
@@ -46,9 +45,10 @@ private:
     bool capture_enabled;
     uint8_t channels;
     int16_t *signal;
+//Methods
+private:
     bool initSound();
     void closeSound();
-
 };
 
 #endif // ALSARECORDER_H

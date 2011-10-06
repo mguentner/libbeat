@@ -21,11 +21,17 @@
 #include <QThread>
 class SoundRecorder : public QThread
 {
+    Q_OBJECT
+
 public:
     SoundRecorder();
     virtual ~SoundRecorder();
     virtual uint32_t get_SampleRate()=0;
     virtual void stop() = 0;
+
+signals:
+    void newDataIsReady();
+
 };
 
 #endif // SOUNDRECORDER_H

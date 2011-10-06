@@ -28,14 +28,14 @@ class BeatAnalyser
 public:
     BeatAnalyser(uint16_t num_bands,uint32_t samplerate, uint16_t recordsize);
     ~BeatAnalyser();
-    void setFFT(FFT *value){myFFT=value;};
+    void setFFT(FFT *value){myFFT=value;}
     void process_data();
-    uint16_t get_bands(){return num_bands;};
-    /*get beats with their corresponding frequency*/
+    uint16_t get_bands(){return num_bands;}
+    // get beats with their corresponding frequency
     bool get_beat(uint16_t pos);
-    //TODO: get_beat with frequency - BeatAnalyser will then return the right subband
+    // get_beat with frequency
     bool get_beat_frequency(uint32_t frequency);
-    /*get beats associated with instruments*/
+    // get beats associated with instruments
     bool get_drum_beat();
     bool get_snare_beat();
     SubBand* getBand(uint16_t value);

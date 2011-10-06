@@ -49,9 +49,12 @@ private:
     SoundBuffer *myBuffer;
     BeatAnalyser *myAnalyser;
     bool m_enabled;
-    int timerID;
-protected:
-    void timerEvent(QTimerEvent *event);
+
+private slots:
+    void processNewData();
+
+signals:
+    void processingDone();
 
 };
 

@@ -46,23 +46,16 @@ void BeatController::start()
     if(!m_enabled)
     {
         myRecorder->start();
-        //We want to process every 5 ms
-        timerID = startTimer(5);
         m_enabled=true;
+        //Connect SoundRecorder::newDataIsReady to processNewData()
+        connect(myRecorder,SIGNAL(newDataIsReady()),this, SLOT(processNewData()));
     }
-}
-void BeatController::timerEvent(QTimerEvent *event)
-{
-    Q_UNUSED(event);
-    myFFT->process_data();
-    myAnalyser->process_data();
 }
 
 void BeatController::stop()
 {
     if(m_enabled)
     {
-        killTimer(timerID);
         myRecorder->stop();
         m_enabled=false;
     }
@@ -70,4 +63,14 @@ void BeatController::stop()
 bool BeatController::getEnabled()
 {
     return m_enabled;
+}
+
+void BeatController::processNewData()
+{
+    if(m_enabled)
+    {
+        myFFT->process_data();
+        myAnalyser->process_data();
+        emit processingDone();
+    }
 }

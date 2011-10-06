@@ -73,6 +73,8 @@ void PulseRecorder::run()
                     sum+=signal[i+j];
                 mySoundBuffer->write(i/channels,(int16_t)sum/channels);
             }
+            //Emit signal and notify connected modules that new data is ready for processing
+            emit newDataIsReady();
         }
     }
     capture_enabled=false;

@@ -21,6 +21,7 @@
 #include <QVector>
 class SoundBuffer
 {
+
 public:
     SoundBuffer(uint16_t size=0);
     int16_t average();
