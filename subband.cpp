@@ -17,9 +17,10 @@
 */
 #include "subband.h"
 
-SubBand::SubBand(uint16_t size)
+SubBand::SubBand(uint16_t size,double dropFactor)
 {
     this->size=size;
+    this->dropFactor=dropFactor;
     all_time_maximum=0;
 }
 void SubBand::log(double value)
@@ -43,7 +44,7 @@ double SubBand::average()
 double SubBand::get_all_time_maximum()
 {
     //With every call of this method we gradually lower the maximum to quickly adapt to changes in the input
-    all_time_maximum*=0.9995;
+    all_time_maximum*=dropFactor;
     return all_time_maximum;
 }
 double SubBand::get_all_time_maximum_raw()

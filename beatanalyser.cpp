@@ -25,7 +25,8 @@ BeatAnalyser::BeatAnalyser(uint16_t num_bands, uint32_t samplerate, uint16_t rec
     mySubBands = new QVector<SubBand*>;
     for(uint16_t i=0;i<num_bands;i++)
     {
-        SubBand *tmp = new SubBand(4*samplerate/recordsize);
+        /*Create a new subband with 4 seconds of history and 50% decrease of the all_time_maximum after 2 seconds*/
+        SubBand *tmp = new SubBand(4*samplerate/recordsize, pow(0.5,(1/((double)samplerate/recordsize))));
         mySubBands->append(tmp);
     }
     myBeats = new QVector<bool> (num_bands,false);

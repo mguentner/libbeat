@@ -29,7 +29,7 @@
 class SubBand
 {
 public:
-    SubBand(uint16_t size=0);
+    SubBand(uint16_t size=0,double dropFactor=0.985);
     void log(double value);
     double average();
     double get_all_time_maximum();
@@ -40,6 +40,7 @@ private:
     QList<double> myHistory;
     uint16_t size;
     double all_time_maximum;
+    double dropFactor;
 };
 
 #endif // SUBBAND_H
