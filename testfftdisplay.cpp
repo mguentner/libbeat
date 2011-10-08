@@ -20,8 +20,15 @@ TestFFTDisplay::TestFFTDisplay(QWidget *parent) :
     QWidget(parent)
 {
     myController = new BeatController(0,4096);
+    //Setup two test frequencies: 600Hz and 12000Hz
+    myController->addCustomBeat(600);
+    myController->addCustomBeat(12000);
     //Draw when processed and analysed data is ready to be displayed
     connect(myController,SIGNAL(processingDone()),this,SLOT(drawNewData()));
+    //Connect some test slots to the Controller's signals
+    connect(myController,SIGNAL(beatDrum()),this,SLOT(processDrum()));
+    connect(myController,SIGNAL(beatSnare()),this,SLOT(processSnare()));
+    connect(myController,SIGNAL(beatCustom(QSet<uint16_t>)),this,SLOT(processCustom(QSet<uint16_t>)));
 }
 
 void TestFFTDisplay::paintEvent(QPaintEvent *)
@@ -88,4 +95,20 @@ void TestFFTDisplay::start()
 void TestFFTDisplay::stop()
 {
     myController->stop();
+}
+void TestFFTDisplay::processDrum()
+{
+    qDebug("Drum beat.\n");
+}
+void TestFFTDisplay::processSnare()
+{
+    qDebug("Snare beat.\n");
+}
+void TestFFTDisplay::processCustom(QSet<uint16_t> beats)
+{
+    QSetIterator<uint16_t> i(beats);
+    while (i.hasNext())
+    {
+            qDebug("Custom beat at %d Hz\n",i.next());
+    }
 }

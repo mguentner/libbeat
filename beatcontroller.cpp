@@ -72,5 +72,20 @@ void BeatController::processNewData()
         myFFT->process_data();
         myAnalyser->process_data();
         emit processingDone();
+        if(myAnalyser->get_drum_beat())
+            emit beatDrum();
+        if(myAnalyser->get_snare_beat())
+            emit beatSnare();
+        //Check for a beat for every frequency in our list
+        QSet<uint16_t> beats;
+        QSetIterator<uint16_t> i(customBeats);
+        while(i.hasNext())
+        {
+            if(myAnalyser->get_beat_frequency(i.peekNext()))
+                beats.insert(i.peekNext());
+            i.next();
+        }
+        if(!beats.empty())
+            emit beatCustom(beats);
     }
 }

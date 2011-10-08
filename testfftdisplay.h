@@ -40,6 +40,9 @@ protected:
 
 private slots:
     void drawNewData();
+    void processSnare();
+    void processDrum();
+    void processCustom(QSet<uint16_t> beats);
 
 };
 

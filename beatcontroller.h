@@ -30,6 +30,9 @@
 #include "beatanalyser.h"
 #include <QObject>
 #include <QTimerEvent>
+#include <QSet>
+
+
 class BeatController : public QObject
 {
     Q_OBJECT
@@ -42,19 +45,24 @@ public:
     void start();
     void stop();
     bool getEnabled();
-
+    void addCustomBeat(uint16_t value){customBeats.insert(value);}
+    void removeCustomBeat(uint16_t value){customBeats.remove(value);}
 private:
     SoundRecorder *myRecorder;
     FFT *myFFT;
     SoundBuffer *myBuffer;
     BeatAnalyser *myAnalyser;
     bool m_enabled;
+    QSet<uint16_t> customBeats;
 
 private slots:
     void processNewData();
 
 signals:
     void processingDone();
+    void beatDrum();
+    void beatSnare();
+    void beatCustom(QSet<uint16_t> beats);
 
 };
 
