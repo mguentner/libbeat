@@ -23,30 +23,34 @@
 #include "inttypes.h"
 #include "fft.h"
 #include "alsarecorder.h"
+
+namespace libbeat
+{
+
 class BeatAnalyser
 {
 public:
-    BeatAnalyser(uint16_t num_bands,uint32_t samplerate, uint16_t recordsize);
+    BeatAnalyser(uint16_t m_bandCount,uint32_t m_sampleRate, uint16_t m_recordSize);
     ~BeatAnalyser();
-    void setFFT(FFT *value){myFFT=value;}
-    void process_data();
-    uint16_t get_bands(){return num_bands;}
+    void setFFT(FFT *value){m_FFT=value;}
+    void processData();
+    uint16_t getBands(){return m_bandCount;}
     // get beats with their corresponding frequency
-    bool get_beat(uint16_t pos);
+    bool getBeat(uint16_t pos);
     // get_beat with frequency
-    bool get_beat_frequency(uint32_t frequency);
+    bool getBeatFrequency(uint32_t frequency);
     // get beats associated with instruments
-    bool get_drum_beat();
-    bool get_snare_beat();
+    bool getDrumBeat();
+    bool getSnareBeat();
     SubBand* getBand(uint16_t value);
 
 private:
-    uint16_t num_bands;
-    uint32_t samplerate;
-    uint16_t recordsize;
-    FFT *myFFT;
-    QVector<SubBand*> *mySubBands;
-    QVector<bool> *myBeats;
+    uint16_t m_bandCount;
+    uint32_t m_sampleRate;
+    uint16_t m_recordSize;
+    FFT *m_FFT;
+    QVector<SubBand*> *m_SubBands;
+    QVector<bool> *m_beats;
 };
-
+}
 #endif // BEATANALYSER_H

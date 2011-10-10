@@ -17,6 +17,9 @@
 */
 #include "soundrecorder.h"
 
+namespace libbeat
+{
+
 SoundRecorder::SoundRecorder()
 {
 }
@@ -24,3 +27,5 @@ SoundRecorder::SoundRecorder()
 SoundRecorder::~SoundRecorder()
 {
 }
+
+} //namespace libbeat

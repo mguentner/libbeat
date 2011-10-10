@@ -24,30 +24,33 @@
 #include <pulse/pulseaudio.h>
 #include <pulse/simple.h>
 
+namespace libbeat
+{
+
 class PulseRecorder : public SoundRecorder
 {
     Q_OBJECT
 
 public:
-    PulseRecorder(uint32_t samplerate,uint8_t channels,SoundBuffer *mySoundBuffer,uint16_t recordsize);
+    PulseRecorder(uint32_t m_sampleRate,uint8_t m_channels,SoundBuffer *m_SoundBuffer,uint16_t m_recordSize);
     virtual ~PulseRecorder();
-    uint32_t get_SampleRate(){return samplerate;}
+    uint32_t getSampleRate(){return m_sampleRate;}
     virtual void run();
     virtual void stop();
 //Variables
 private:
-    pa_simple *s;
-    pa_sample_spec ss;
-    SoundBuffer *mySoundBuffer;
-    int16_t *signal;
-    uint16_t recordsize;
-    uint32_t samplerate;
-    bool capture_enabled;
-    uint8_t channels;
+    pa_simple *m_s;
+    pa_sample_spec m_ss;
+    SoundBuffer *m_SoundBuffer;
+    int16_t *m_signal;
+    uint16_t m_recordSize;
+    uint32_t m_sampleRate;
+    bool m_captureEnabled;
+    uint8_t m_channels;
 //Methods
 private:
     bool initSound();
     void closeSound();
 };
-
+}
 #endif // PULSERECORDER_H

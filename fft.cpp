@@ -16,27 +16,32 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "fft.h"
+
+namespace libbeat
+{
+
+
 FFT::FFT(uint16_t size=0)
 {
-    this->size=size;
-    magnitude = new double[size/2];
-    max_magnitude=0;
+    this->m_size=size;
+    m_magnitude = new double[size/2];
+    m_maxMagnitude=0;
     /*We should use fftw_malloc instead of new since fftw_malloc aligns the memory for optimal speed*/
-    output_signal = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * size);
-    input_signal = new double[size];
+    m_outputSignal = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * size);
+    m_inputSignal = new double[size];
 
 }
 FFT::~FFT()
 {
-    delete [] input_signal;
-    delete [] magnitude;
-    fftw_free(output_signal);
+    delete [] m_inputSignal;
+    delete [] m_magnitude;
+    fftw_free(m_outputSignal);
 }
 void FFT::process_data()
 {
     //This has to happen prior to any initialisation of the input array
     fftw_plan plan_forward;
-    plan_forward = fftw_plan_dft_r2c_1d(size, input_signal, output_signal , 0);
+    plan_forward = fftw_plan_dft_r2c_1d(m_size, m_inputSignal, m_outputSignal , 0);
     //fill our array with data and apply windows if needed
 #ifdef USE_BLACKMAN
     for(uint16_t i=0; i<size; i++)
@@ -55,9 +60,9 @@ void FFT::process_data()
     }
 #endif
 #ifdef USE_NO_WINDOW
-    for(uint16_t i=0; i<size;i++)
+    for(uint16_t i=0; i<m_size;i++)
     {
-        input_signal[i]=(double)mySoundBuffer->read(i);
+        m_inputSignal[i]=(double)m_SoundBuffer->read(i);
     }
 #endif
 
@@ -66,40 +71,41 @@ void FFT::process_data()
     //Calculate Magnitude
     #ifdef CLEAR_NOISE
     //We delete some values since these will ruin our output
-        output_signal[0][0]=0;
-        output_signal[0][1]=0;
-        output_signal[1][0]=0;
-        output_signal[1][1]=0;
+        m_outputSignal[0][0]=0;
+        m_outputSignal[0][1]=0;
+        m_outputSignal[1][0]=0;
+        m_outputSignal[1][1]=0;
     #endif
-    for(uint16_t i=0;i<size/2;i++)
+    for(uint16_t i=0;i<m_size/2;i++)
     {
-        magnitude[i] = sqrt(pow(output_signal[i][0],2)+pow(output_signal[i][1],2));
-        if(magnitude[i] > max_magnitude)
-            max_magnitude=magnitude[i];
+        m_magnitude[i] = sqrt(pow(m_outputSignal[i][0],2)+pow(m_outputSignal[i][1],2));
+        if(m_magnitude[i] > m_maxMagnitude)
+            m_maxMagnitude=m_magnitude[i];
     }
 }
 double FFT::get_element_i(uint16_t pos)
 {
-    if(pos < size)
-        return output_signal[pos][1];
+    if(pos < m_size)
+        return m_outputSignal[pos][1];
     else
         return 0;
 }
 double FFT::get_element_r(uint16_t pos)
 {
-    if(pos < size)
-        return output_signal[pos][0];
+    if(pos < m_size)
+        return m_outputSignal[pos][0];
     else
         return 0;
 }
 double FFT::get_magnitude(uint16_t pos)
 {
-    if(pos < size/2)
-        return magnitude[pos];
+    if(pos < m_size/2)
+        return m_magnitude[pos];
     else
         return 0;
 }
 double FFT::get_magnitude_max()
 {
-    return max_magnitude;
+    return m_maxMagnitude;
 }
+} //namespace libbeat

@@ -33,7 +33,7 @@ public slots:
     void stop();
 
 private:
-    BeatController *myController;
+    libbeat::BeatController *m_Controller;
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -42,7 +42,7 @@ private slots:
     void drawNewData();
     void processSnare();
     void processDrum();
-    void processCustom(QSet<uint16_t> beats);
+    void processCustom(QSet<uint16_t> myBeats);
 
 };
 

@@ -26,21 +26,24 @@
 
   (*) This however can be changed which will then increase/decrease the sensitivity of the beatfinding algorithm*/
 
+namespace libbeat
+{
+
 class SubBand
 {
 public:
     SubBand(uint16_t size=0,double dropFactor=0.985);
     void log(double value);
     double average();
-    double get_all_time_maximum();
-    double get_all_time_maximum_raw();
+    double getAllTimeMaximum();
+    double getAllTimeMaximumRaw();
+    void resetMaximum();
 
-    void reset_maximum();
 private:
-    QList<double> myHistory;
+    QList<double> m_history;
     uint16_t size;
-    double all_time_maximum;
+    double allTimeMaximum;
     double dropFactor;
 };
-
+}
 #endif // SUBBAND_H

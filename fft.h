@@ -23,12 +23,16 @@
 #include "soundbuffer.h"
 #define USE_NO_WINDOW
 #define CLEAR_NOISE
+
+namespace libbeat
+{
+
 class FFT
 {
 public:
-    FFT(uint16_t size);
+    FFT(uint16_t m_size);
     ~FFT();
-    void setSoundBuffer(SoundBuffer *value){mySoundBuffer=value;}
+    void setSoundBuffer(SoundBuffer *value){m_SoundBuffer=value;}
     void process_data();
     double get_element_r(uint16_t pos);
     double get_element_i(uint16_t pos);
@@ -36,12 +40,12 @@ public:
     double get_magnitude_max();
 
 private:
-    SoundBuffer *mySoundBuffer;
-    uint16_t size;
-    double *input_signal;
-    double *magnitude;
-    double max_magnitude;
-    fftw_complex *output_signal;
+    SoundBuffer *m_SoundBuffer;
+    uint16_t m_size;
+    double *m_inputSignal;
+    double *m_magnitude;
+    double m_maxMagnitude;
+    fftw_complex *m_outputSignal;
 };
-
+}
 #endif // FFT_H

@@ -19,16 +19,16 @@
 TestFFTDisplay::TestFFTDisplay(QWidget *parent) :
     QWidget(parent)
 {
-    myController = new BeatController(0,4096);
+    m_Controller = new libbeat::BeatController(0,4096);
     //Setup two test frequencies: 600Hz and 12000Hz
-    myController->addCustomBeat(600);
-    myController->addCustomBeat(12000);
+    m_Controller->addCustomBeat(600);
+    m_Controller->addCustomBeat(12000);
     //Draw when processed and analysed data is ready to be displayed
-    connect(myController,SIGNAL(processingDone()),this,SLOT(drawNewData()));
+    connect(m_Controller,SIGNAL(processingDone()),this,SLOT(drawNewData()));
     //Connect some test slots to the Controller's signals
-    connect(myController,SIGNAL(beatDrum()),this,SLOT(processDrum()));
-    connect(myController,SIGNAL(beatSnare()),this,SLOT(processSnare()));
-    connect(myController,SIGNAL(beatCustom(QSet<uint16_t>)),this,SLOT(processCustom(QSet<uint16_t>)));
+    connect(m_Controller,SIGNAL(beatDrum()),this,SLOT(processDrum()));
+    connect(m_Controller,SIGNAL(beatSnare()),this,SLOT(processSnare()));
+    connect(m_Controller,SIGNAL(beatCustom(QSet<uint16_t>)),this,SLOT(processCustom(QSet<uint16_t>)));
 }
 
 void TestFFTDisplay::paintEvent(QPaintEvent *)
@@ -36,19 +36,19 @@ void TestFFTDisplay::paintEvent(QPaintEvent *)
     QPainter myPainter(this);
     myPainter.setBrush(Qt::white);
     myPainter.drawRect(QRectF(0,0,width(),height()));
-    if(myController->getEnabled())
+    if(m_Controller->getEnabled())
     {
         myPainter.setPen(Qt::green);
         for(uint16_t i=0;i<4096;i++)
         {
             //Draw the function itself
-            myPainter.drawLine(QPoint((double)i/2048*width(),height()-myController->getFFT()->get_magnitude(i)/myController->getFFT()->get_magnitude_max()*height()),QPoint((double)i/2048*width(),width()));
+            myPainter.drawLine(QPoint((double)i/2048*width(),height()-m_Controller->getFFT()->get_magnitude(i)/m_Controller->getFFT()->get_magnitude_max()*height()),QPoint((double)i/2048*width(),width()));
         }
-        uint16_t bands=myController->getAnalyser()->get_bands();
+        uint16_t bands=m_Controller->getAnalyser()->getBands();
         for(uint16_t i=0;i<bands;i++)
         {
             myPainter.setPen(Qt::black);
-            if(myController->getAnalyser()->get_beat(i) == true)
+            if(m_Controller->getAnalyser()->getBeat(i) == true)
                 myPainter.setBrush(Qt::red);
             else
                 myPainter.setBrush(Qt::NoBrush);
@@ -59,16 +59,16 @@ void TestFFTDisplay::paintEvent(QPaintEvent *)
             myPainter.setBrush(Qt::magenta);
             myPainter.setPen(Qt::NoPen);
             //Draw beat detection level
-            myPainter.drawRect(QRectF(QPoint((double)i/bands*width(),(height()-myController->getAnalyser()->getBand(i)->get_all_time_maximum_raw()/myController->getFFT()->get_magnitude_max()*height())),QSizeF(width()*0.005,width()*0.005)));
+            myPainter.drawRect(QRectF(QPoint((double)i/bands*width(),(height()-m_Controller->getAnalyser()->getBand(i)->getAllTimeMaximumRaw()/m_Controller->getFFT()->get_magnitude_max()*height())),QSizeF(width()*0.005,width()*0.005)));
         }
         //Draw drum beat
-        if(myController->getAnalyser()->get_drum_beat())
+        if(m_Controller->getAnalyser()->getDrumBeat())
         {
             myPainter.setBrush(Qt::yellow);
             myPainter.drawEllipse(QPointF(width()*0.30,height()/2),width()*0.1,width()*0.1);
         }
         //Draw snare beat
-        if(myController->getAnalyser()->get_snare_beat())
+        if(m_Controller->getAnalyser()->getSnareBeat())
         {
             myPainter.setBrush(Qt::blue);
             myPainter.drawEllipse(QPointF(width()*0.70,height()/2),width()*0.1,width()*0.1);
@@ -80,7 +80,7 @@ void TestFFTDisplay::paintEvent(QPaintEvent *)
         //Draw volume
         myPainter.setBrush(Qt::green);
         myPainter.setPen(Qt::black);
-        myPainter.drawRect(QRectF(0.90*width(), 0.90*height(), 0.05*width(), (log(myController->getBuffer()->average_pwr())/log(65536))*-0.50*height()));
+        myPainter.drawRect(QRectF(0.90*width(), 0.90*height(), 0.05*width(), (log(m_Controller->getBuffer()->average_pwr())/log(65536))*-0.50*height()));
     }
 }
 void TestFFTDisplay::drawNewData()
@@ -90,11 +90,11 @@ void TestFFTDisplay::drawNewData()
 
 void TestFFTDisplay::start()
 {
-    myController->start();
+    m_Controller->start();
 }
 void TestFFTDisplay::stop()
 {
-    myController->stop();
+    m_Controller->stop();
 }
 void TestFFTDisplay::processDrum()
 {
@@ -104,9 +104,9 @@ void TestFFTDisplay::processSnare()
 {
     qDebug("Snare beat.\n");
 }
-void TestFFTDisplay::processCustom(QSet<uint16_t> beats)
+void TestFFTDisplay::processCustom(QSet<uint16_t> myBeats)
 {
-    QSetIterator<uint16_t> i(beats);
+    QSetIterator<uint16_t> i(myBeats);
     while (i.hasNext())
     {
             qDebug("Custom beat at %d Hz\n",i.next());

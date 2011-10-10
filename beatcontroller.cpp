@@ -17,38 +17,41 @@
 */
 #include "beatcontroller.h"
 
+namespace libbeat
+{
+
 BeatController::BeatController(QObject *parent,uint16_t recordsize) : QObject(parent)
 {
-    myBuffer = new SoundBuffer(recordsize);
-    myAnalyser = new BeatAnalyser(192,44100,recordsize);
+    m_Buffer = new SoundBuffer(recordsize);
+    m_Analyser = new BeatAnalyser(192,44100,recordsize);
 #ifdef USE_ALSA
     dynamic_cast<AlsaRecorder*>(myRecorder);
     myRecorder = new AlsaRecorder(44100,2,myBuffer,recordsize);
 #endif
 #ifdef USE_PULSE
-    dynamic_cast<PulseRecorder*>(myRecorder);
-    myRecorder = new PulseRecorder(44100,2,myBuffer,recordsize);
+    dynamic_cast<PulseRecorder*>(m_Recorder);
+    m_Recorder = new PulseRecorder(44100,2,m_Buffer,recordsize);
 #endif
-    myFFT = new FFT(recordsize);
-    myFFT->setSoundBuffer(myBuffer);
-    myAnalyser->setFFT(myFFT);
+    m_FFT = new FFT(recordsize);
+    m_FFT->setSoundBuffer(m_Buffer);
+    m_Analyser->setFFT(m_FFT);
     m_enabled=false;
 }
 BeatController::~BeatController()
 {
-    delete myFFT;
-    delete myRecorder;
-    delete myBuffer;
-    delete myAnalyser;
+    delete m_FFT;
+    delete m_Recorder;
+    delete m_Buffer;
+    delete m_Analyser;
 }
 void BeatController::start()
 {
     if(!m_enabled)
     {
-        myRecorder->start();
+        m_Recorder->start();
         m_enabled=true;
         //Connect SoundRecorder::newDataIsReady to processNewData()
-        connect(myRecorder,SIGNAL(newDataIsReady()),this, SLOT(processNewData()));
+        connect(m_Recorder,SIGNAL(newDataIsReady()),this, SLOT(processNewData()));
     }
 }
 
@@ -56,7 +59,7 @@ void BeatController::stop()
 {
     if(m_enabled)
     {
-        myRecorder->stop();
+        m_Recorder->stop();
         m_enabled=false;
     }
 }
@@ -69,23 +72,24 @@ void BeatController::processNewData()
 {
     if(m_enabled)
     {
-        myFFT->process_data();
-        myAnalyser->process_data();
+        m_FFT->process_data();
+        m_Analyser->processData();
         emit processingDone();
-        if(myAnalyser->get_drum_beat())
+        if(m_Analyser->getDrumBeat())
             emit beatDrum();
-        if(myAnalyser->get_snare_beat())
+        if(m_Analyser->getSnareBeat())
             emit beatSnare();
         //Check for a beat for every frequency in our list
-        QSet<uint16_t> beats;
-        QSetIterator<uint16_t> i(customBeats);
+        QSet<uint16_t> myBeats;
+        QSetIterator<uint16_t> i(m_customBeats);
         while(i.hasNext())
         {
-            if(myAnalyser->get_beat_frequency(i.peekNext()))
-                beats.insert(i.peekNext());
+            if(m_Analyser->getBeatFrequency(i.peekNext()))
+                myBeats.insert(i.peekNext());
             i.next();
         }
-        if(!beats.empty())
-            emit beatCustom(beats);
+        if(!myBeats.empty())
+            emit beatCustom(myBeats);
     }
 }
+} //namespace libbeat

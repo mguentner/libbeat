@@ -25,30 +25,32 @@
 #include "soundrecorder.h"
 #include "soundbuffer.h"
 
+namespace libbeat
+{
 
 class AlsaRecorder : public SoundRecorder
 {
     Q_OBJECT
 
 public:
-    AlsaRecorder(uint32_t samplerate,uint8_t channels,SoundBuffer *mySoundBuffer,uint16_t recordsize);
+    AlsaRecorder(uint32_t m_sampleSize,uint8_t m_channels,SoundBuffer *m_SoundBuffer,uint16_t m_recordSize);
     virtual ~AlsaRecorder();
-    uint32_t get_SampleRate(){return samplerate;}
+    uint32_t getSampleRate(){return m_sampleSize;}
     virtual void run();
     virtual void stop();
 //Variables
 private:
-    snd_pcm_t *capture_handle;
-    uint16_t recordsize;
-    uint32_t samplerate;
-    SoundBuffer *mySoundBuffer;
-    bool capture_enabled;
-    uint8_t channels;
-    int16_t *signal;
+    snd_pcm_t *m_captureHandle;
+    uint16_t m_recordSize;
+    uint32_t m_sampleSize;
+    SoundBuffer *m_SoundBuffer;
+    bool m_captureEnabled;
+    uint8_t m_channels;
+    int16_t *m_signal;
 //Methods
 private:
     bool initSound();
     void closeSound();
 };
-
+}
 #endif // ALSARECORDER_H

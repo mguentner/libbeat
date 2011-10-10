@@ -19,6 +19,11 @@
 #define SOUNDRECORDER_H
 #include <inttypes.h>
 #include <QThread>
+
+namespace libbeat
+{
+
+
 class SoundRecorder : public QThread
 {
     Q_OBJECT
@@ -26,12 +31,12 @@ class SoundRecorder : public QThread
 public:
     SoundRecorder();
     virtual ~SoundRecorder();
-    virtual uint32_t get_SampleRate()=0;
+    virtual uint32_t getSampleRate()=0;
     virtual void stop() = 0;
 
 signals:
     void newDataIsReady();
 
 };
-
+}
 #endif // SOUNDRECORDER_H

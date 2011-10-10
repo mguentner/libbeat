@@ -17,42 +17,46 @@
 */
 #include "subband.h"
 
+namespace libbeat
+{
+
 SubBand::SubBand(uint16_t size,double dropFactor)
 {
     this->size=size;
     this->dropFactor=dropFactor;
-    all_time_maximum=0;
+    allTimeMaximum=0;
 }
 void SubBand::log(double value)
 {
-    if(value > all_time_maximum)
-        all_time_maximum=value;
+    if(value > allTimeMaximum)
+        allTimeMaximum=value;
      //Log our new value
-     myHistory.prepend(value);
+     m_history.prepend(value);
      //Delete the oldest record
-     if(myHistory.size() > size)
-         myHistory.removeLast();
+     if(m_history.size() > size)
+         m_history.removeLast();
      //else: We are still filling our list. this should only happend during the first second of recording
 }
 double SubBand::average()
 {
      double sum=0;
-     foreach (const double &entry, myHistory)
+     foreach (const double &entry, m_history)
           sum+=entry;
-     return sum/myHistory.size();
+     return sum/m_history.size();
 }
-double SubBand::get_all_time_maximum()
+double SubBand::getAllTimeMaximum()
 {
     //With every call of this method we gradually lower the maximum to quickly adapt to changes in the input
-    all_time_maximum*=dropFactor;
-    return all_time_maximum;
+    allTimeMaximum*=dropFactor;
+    return allTimeMaximum;
 }
-double SubBand::get_all_time_maximum_raw()
+double SubBand::getAllTimeMaximumRaw()
 {
-    //This function is for display purpuse only. No recalibration will be performed
-    return all_time_maximum;
+    //This function is for display purpose only. No recalibration will be performed
+    return allTimeMaximum;
 }
-void SubBand::reset_maximum()
+void SubBand::resetMaximum()
 {
-    all_time_maximum=0;
+    allTimeMaximum=0;
 }
+} //libbeat

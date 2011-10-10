@@ -32,6 +32,8 @@
 #include <QTimerEvent>
 #include <QSet>
 
+namespace libbeat
+{
 
 class BeatController : public QObject
 {
@@ -39,21 +41,21 @@ class BeatController : public QObject
 public:
     explicit BeatController (QObject *parent = 0,uint16_t recordsize=4096);
     ~BeatController();
-    FFT* getFFT(){return myFFT;}
-    BeatAnalyser* getAnalyser(){return myAnalyser;}
-    SoundBuffer* getBuffer(){return myBuffer;}
+    FFT* getFFT(){return m_FFT;}
+    BeatAnalyser* getAnalyser(){return m_Analyser;}
+    SoundBuffer* getBuffer(){return m_Buffer;}
     void start();
     void stop();
     bool getEnabled();
-    void addCustomBeat(uint16_t value){customBeats.insert(value);}
-    void removeCustomBeat(uint16_t value){customBeats.remove(value);}
+    void addCustomBeat(uint16_t value){m_customBeats.insert(value);}
+    void removeCustomBeat(uint16_t value){m_customBeats.remove(value);}
 private:
-    SoundRecorder *myRecorder;
-    FFT *myFFT;
-    SoundBuffer *myBuffer;
-    BeatAnalyser *myAnalyser;
+    SoundRecorder *m_Recorder;
+    FFT *m_FFT;
+    SoundBuffer *m_Buffer;
+    BeatAnalyser *m_Analyser;
     bool m_enabled;
-    QSet<uint16_t> customBeats;
+    QSet<uint16_t> m_customBeats;
 
 private slots:
     void processNewData();
@@ -65,5 +67,5 @@ signals:
     void beatCustom(QSet<uint16_t> beats);
 
 };
-
+}
 #endif // CONTROLLER_H
