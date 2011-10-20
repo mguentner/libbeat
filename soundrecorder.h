@@ -22,8 +22,9 @@
 
 namespace libbeat
 {
-
-
+/*!
+  abstract SoundRecorder
+*/
 class SoundRecorder : public QThread
 {
     Q_OBJECT
@@ -31,10 +32,12 @@ class SoundRecorder : public QThread
 public:
     SoundRecorder();
     virtual ~SoundRecorder();
-    virtual uint32_t getSampleRate()=0;
     virtual void stop() = 0;
 
 signals:
+    /*!
+        This signal needs to be emitted once all samples have been recorded. The BeatController will connect to this signal and then trigger the Analyser
+    */
     void newDataIsReady();
 
 };

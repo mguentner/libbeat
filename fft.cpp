@@ -29,6 +29,7 @@ FFT::FFT(uint16_t size=0)
     /*We should use fftw_malloc instead of new since fftw_malloc aligns the memory for optimal speed*/
     m_outputSignal = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * size);
     m_inputSignal = new double[size];
+    m_SoundBuffer = NULL;
 
 }
 FFT::~FFT()
@@ -39,24 +40,29 @@ FFT::~FFT()
 }
 void FFT::process_data()
 {
+    if(m_SoundBuffer == NULL)
+    {
+        qErrnoWarning("libbeat: No Soundbuffer has been set!");
+        return;
+    }
     //This has to happen prior to any initialisation of the input array
     fftw_plan plan_forward;
     plan_forward = fftw_plan_dft_r2c_1d(m_size, m_inputSignal, m_outputSignal , 0);
     //fill our array with data and apply windows if needed
 #ifdef USE_BLACKMAN
-    for(uint16_t i=0; i<size; i++)
+    for(uint16_t i=0; i<m_size; i++)
     {
         double a0 = (1-0.16)/2;
         double a1 = 0.5;
         double a2 = 0.16/2;
-        int16_t temp = mySoundBuffer->read(i);
-        input_signal[i] = a0-a1*cos((2*M_PI*temp)/(size-1))+a2*cos((4*M_PI*temp)/(size-1));
+        int16_t temp = m_SoundBuffer->read(i);
+        m_inputSignal[i] = a0-a1*cos((2*M_PI*temp)/(m_size-1))+a2*cos((4*M_PI*temp)/(m_size-1));
     }
 #endif
 #ifdef USE_HANNING
-    for(uint16_t i=0; i<size; i++)
+    for(uint16_t i=0; i<m_size; i++)
     {
-        input_signal[i] = 0.5*(1.00-cos((2*M_PI*mySoundBuffer->read(i))/(size-1)));
+        m_inputSignal[i] = 0.5*(1.00-cos((2*M_PI*m_SoundBuffer->read(i))/(m_size-1)));
     }
 #endif
 #ifdef USE_NO_WINDOW

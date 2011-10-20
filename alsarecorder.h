@@ -35,7 +35,6 @@ class AlsaRecorder : public SoundRecorder
 public:
     AlsaRecorder(uint32_t m_sampleSize,uint8_t m_channels,SoundBuffer *m_SoundBuffer,uint16_t m_recordSize);
     virtual ~AlsaRecorder();
-    uint32_t getSampleRate(){return m_sampleSize;}
     virtual void run();
     virtual void stop();
 //Variables

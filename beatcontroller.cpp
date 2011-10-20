@@ -20,19 +20,19 @@
 namespace libbeat
 {
 
-BeatController::BeatController(QObject *parent,uint16_t recordsize) : QObject(parent)
+BeatController::BeatController(QObject *parent, uint16_t recordSize, uint32_t sampleRate, uint16_t m_bandCount) : QObject(parent)
 {
-    m_Buffer = new SoundBuffer(recordsize);
-    m_Analyser = new BeatAnalyser(192,44100,recordsize);
+    m_Buffer = new SoundBuffer(recordSize);
+    m_Analyser = new BeatAnalyser(m_bandCount,sampleRate,recordSize);
 #ifdef USE_ALSA
     dynamic_cast<AlsaRecorder*>(myRecorder);
-    myRecorder = new AlsaRecorder(44100,2,myBuffer,recordsize);
+    myRecorder = new AlsaRecorder(sampleRate,2,myBuffer,recordSize);
 #endif
 #ifdef USE_PULSE
     dynamic_cast<PulseRecorder*>(m_Recorder);
-    m_Recorder = new PulseRecorder(44100,2,m_Buffer,recordsize);
+    m_Recorder = new PulseRecorder(sampleRate,2,m_Buffer,recordSize);
 #endif
-    m_FFT = new FFT(recordsize);
+    m_FFT = new FFT(recordSize);
     m_FFT->setSoundBuffer(m_Buffer);
     m_Analyser->setFFT(m_FFT);
     m_enabled=false;

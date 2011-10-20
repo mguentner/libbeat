@@ -34,7 +34,6 @@ class PulseRecorder : public SoundRecorder
 public:
     PulseRecorder(uint32_t m_sampleRate,uint8_t m_channels,SoundBuffer *m_SoundBuffer,uint16_t m_recordSize);
     virtual ~PulseRecorder();
-    uint32_t getSampleRate(){return m_sampleRate;}
     virtual void run();
     virtual void stop();
 //Variables

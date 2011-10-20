@@ -22,15 +22,37 @@
 
 namespace libbeat
 {
-
+/*!
+    Simple storage class for signed 16-bit samples
+*/
 class SoundBuffer
 {
 
 public:
+    /*!
+        @param m_size how many samples SoundBuffer should store
+    */
     SoundBuffer(uint16_t m_size=0);
+    /*! returns the average value of the SoundBuffer
+        @return average value
+    */
     int16_t average();
+    /*! returns the average power of the SoundBuffer (e.g the volume)
+        @return average power
+    */
     uint16_t average_pwr();
+    /*!
+        write value to pos
+        @param value the value
+        @param pos the position
+        @return true if successful, false if not
+    */
     bool write(uint16_t pos, int16_t value);
+    /*!
+        get a certain positon
+        @param pos the position
+        @return the value at pos
+    */
     int16_t read(uint16_t pos);
 
 private:

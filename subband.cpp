@@ -22,18 +22,18 @@ namespace libbeat
 
 SubBand::SubBand(uint16_t size,double dropFactor)
 {
-    this->size=size;
-    this->dropFactor=dropFactor;
-    allTimeMaximum=0;
+    this->m_size=size;
+    this->m_dropFactor=dropFactor;
+    m_allTimeMaximum=0;
 }
 void SubBand::log(double value)
 {
-    if(value > allTimeMaximum)
-        allTimeMaximum=value;
+    if(value > m_allTimeMaximum)
+        m_allTimeMaximum=value;
      //Log our new value
      m_history.prepend(value);
      //Delete the oldest record
-     if(m_history.size() > size)
+     if(m_history.size() > m_size)
          m_history.removeLast();
      //else: We are still filling our list. this should only happend during the first second of recording
 }
@@ -47,16 +47,16 @@ double SubBand::average()
 double SubBand::getAllTimeMaximum()
 {
     //With every call of this method we gradually lower the maximum to quickly adapt to changes in the input
-    allTimeMaximum*=dropFactor;
-    return allTimeMaximum;
+    m_allTimeMaximum*=m_dropFactor;
+    return m_allTimeMaximum;
 }
 double SubBand::getAllTimeMaximumRaw()
 {
     //This function is for display purpose only. No recalibration will be performed
-    return allTimeMaximum;
+    return m_allTimeMaximum;
 }
 void SubBand::resetMaximum()
 {
-    allTimeMaximum=0;
+    m_allTimeMaximum=0;
 }
 } //libbeat

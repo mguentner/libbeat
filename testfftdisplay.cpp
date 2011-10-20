@@ -19,7 +19,7 @@
 TestFFTDisplay::TestFFTDisplay(QWidget *parent) :
     QWidget(parent)
 {
-    m_Controller = new libbeat::BeatController(0,4096);
+    m_Controller = new libbeat::BeatController(0,4096,44100,192);
     //Setup two test frequencies: 600Hz and 12000Hz
     m_Controller->addCustomBeat(600);
     m_Controller->addCustomBeat(12000);
