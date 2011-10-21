@@ -21,7 +21,7 @@
 #include <QWidget>
 #include <QPainter>
 #include "cmath"
-#include "beatcontroller.h"
+#include "../src/beatcontroller.h"
 class TestFFTDisplay : public QWidget
 {
     Q_OBJECT

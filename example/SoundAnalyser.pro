@@ -12,26 +12,26 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    alsarecorder.cpp \
-    fft.cpp \
     testfftdisplay.cpp \
-    soundbuffer.cpp \
-    subband.cpp \
-    beatanalyser.cpp \
-    soundrecorder.cpp \
-    pulserecorder.cpp \
-    beatcontroller.cpp
+    ../src/alsarecorder.cpp \
+    ../src/subband.cpp \
+    ../src/soundrecorder.cpp \
+    ../src/soundbuffer.cpp \
+    ../src/pulserecorder.cpp \
+    ../src/fft.cpp \
+    ../src/beatcontroller.cpp \
+    ../src/beatanalyser.cpp
 
 HEADERS  += mainwindow.h \
-    alsarecorder.h \
-    fft.h \
     testfftdisplay.h \
-    soundbuffer.h \
-    subband.h \
-    beatanalyser.h \
-    soundrecorder.h \
-    pulserecorder.h \
-    beatcontroller.h
+    ../src/subband.h \
+    ../src/soundrecorder.h \
+    ../src/soundbuffer.h \
+    ../src/pulserecorder.h \
+    ../src/fft.h \
+    ../src/beatcontroller.h \
+    ../src/beatanalyser.h \
+    ../src/alsarecorder.h
 
 FORMS    += mainwindow.ui
 
@@ -39,6 +39,9 @@ LIBS += -lasound -lfftw3 -lpulse-simple -lpulse
 
 OTHER_FILES += \
     soundanalyser.png
+
+
+
 
 
 
