@@ -17,7 +17,7 @@ to build it.
 
 Make sure you have fftw3, alsa (or PulseAudio) and Qt4 installed!
 
-Screenshot[https://github.com/mguentner/libbeat/raw/master/soundanalyser.png]
+Screenshot[https://github.com/mguentner/libbeat/raw/master/example/soundanalyser.png]
 
 * The blue circle indicates a snare drum beat.
 * The yellow circle indicates a drum bass beat.
