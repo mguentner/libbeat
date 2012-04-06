@@ -9,10 +9,10 @@ The software is still in development and pre-alpha.
 == Sample Application
 
 The library comes with a sample Qt Application, simply run
-```
-	qmake
-	make
-```
+
+  qmake
+  make
+
 in the root directory to build it.
 
 Make sure you have fftw3, alsa (or PulseAudio) and Qt4 installed!
@@ -22,9 +22,8 @@ Make sure you have fftw3, alsa (or PulseAudio) and Qt4 installed!
 When running the application, make sure to declare the right LIBRARY_PATH.
 This should work from within the SoundAnalyser directory:
 
-```
-	LD_LIBRARY_PATH=../src ./SoundAnalyser 
-```
+
+  LD_LIBRARY_PATH=../src ./SoundAnalyser 
 
 Screenshot[https://github.com/mguentner/libbeat/raw/master/SoundAnalyser/soundanalyser.png]
 
