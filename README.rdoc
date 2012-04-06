@@ -17,7 +17,7 @@ in the root directory to build it.
 
 Make sure you have fftw3, alsa (or PulseAudio) and Qt4 installed!
 
-=== Testing ===
+=== Testing
 
 When running the application, make sure to declare the right LIBRARY_PATH.
 This should work from within the SoundAnalyser directory:
