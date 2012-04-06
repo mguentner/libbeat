@@ -9,15 +9,15 @@ The software is still in development and pre-alpha.
 == Sample Application
 
 The library comes with a sample Qt Application, simply run
-
+```
 	qmake
 	make
-
-to build it.
+```
+in the root directory to build it.
 
 Make sure you have fftw3, alsa (or PulseAudio) and Qt4 installed!
 
-Screenshot[https://github.com/mguentner/libbeat/raw/master/example/soundanalyser.png]
+Screenshot[https://github.com/mguentner/libbeat/raw/master/SoundAnalyser/soundanalyser.png]
 
 * The blue circle indicates a snare drum beat.
 * The yellow circle indicates a drum bass beat.
