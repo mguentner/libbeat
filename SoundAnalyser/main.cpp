@@ -15,7 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <QtGui/QApplication>
+#include <QtWidgets/QApplication>
 #include "mainwindow.h"
 #include <iostream>
 int main(int argc, char *argv[])
