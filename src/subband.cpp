@@ -25,11 +25,20 @@ SubBand::SubBand(uint16_t size,double dropFactor)
     this->m_size=size;
     this->m_dropFactor=dropFactor;
     m_allTimeMaximum=0;
+    m_currentMaximum=0;
+    logCounter=0;
 }
 void SubBand::log(double value)
 {
     if(value > m_allTimeMaximum)
         m_allTimeMaximum=value;
+    if(value > m_currentMaximum)
+        m_currentMaximum=value;
+    if(++logCounter == 1000)
+    {
+        m_allTimeMaximum=(average()+m_allTimeMaximum)/2;
+        logCounter=0;
+    }
      //Log our new value
      m_history.prepend(value);
      //Delete the oldest record
@@ -44,19 +53,24 @@ double SubBand::average()
           sum+=entry;
      return sum/m_history.size();
 }
-double SubBand::getAllTimeMaximum()
+double SubBand::getCurrentMaximum()
 {
     //With every call of this method we gradually lower the maximum to quickly adapt to changes in the input
-    m_allTimeMaximum*=m_dropFactor;
-    return m_allTimeMaximum;
+    m_currentMaximum*=m_dropFactor;
+    return m_currentMaximum;
 }
-double SubBand::getAllTimeMaximumRaw()
+double SubBand::getCurrentMaximumRaw()
 {
     //This function is for display purpose only. No recalibration will be performed
+    return m_currentMaximum;
+}
+double SubBand::getAllTimeMaximium()
+{
     return m_allTimeMaximum;
 }
 void SubBand::resetMaximum()
 {
     m_allTimeMaximum=0;
+    m_currentMaximum=0;
 }
 } //libbeat

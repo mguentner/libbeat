@@ -43,16 +43,22 @@ public:
     */
     double average();
     /*!
-        returns the highest magnitude so far. With each call the magnitude will be
+        returns the currently highest magnitude. With each call the magnitude will be
         multiplied by m_dropFactor and therefore leading to a recalibration (gently reducing the magnitude)
         @return the highest magnitude so far
     */
-    double getAllTimeMaximum();
+    double getCurrentMaximum();
     /*!
-        return the highest magnitude so far without touching it. This can be used for displaying the current threshold.
-        @return the highest magnitude so far
+        returns the currently highest magnitude without touching it. This can be used for displaying the current threshold.
+        @return the currently highest magnitude so far
     */
-    double getAllTimeMaximumRaw();
+    double getCurrentMaximumRaw();
+    /*!
+        returns the highest magnitude so far without touching it.
+        @return the highest magnitued so far
+    */
+    double getAllTimeMaximium();
+
     /*!
         resets the maximum
     */
@@ -62,7 +68,9 @@ private:
     QList<double> m_history;
     uint16_t m_size;
     double m_allTimeMaximum;
+    double m_currentMaximum;
     double m_dropFactor;
+    uint16_t logCounter;
 };
 }
 #endif // SUBBAND_H
