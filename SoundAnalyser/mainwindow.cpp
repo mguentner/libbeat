@@ -23,8 +23,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QStringList windowFunctions;
+    windowFunctions << "No Window" << "Hanning" << "Blackman";
+    ui->windowFunctionComboBox->addItems(windowFunctions);
     connect(this->ui->startButton,SIGNAL(clicked()),ui->widget,SLOT(start()));
     connect(this->ui->stopButton,SIGNAL(clicked()),ui->widget,SLOT(stop()));
+    connect(this->ui->windowFunctionComboBox,SIGNAL(currentIndexChanged(QString)),ui->widget, SLOT(windowFunctionChanged(QString)));
+
 }
 
 MainWindow::~MainWindow()
@@ -37,3 +42,4 @@ void MainWindow::on_startButton_clicked()
 {
     ui->startButton->setDown(true);
 }
+

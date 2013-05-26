@@ -42,7 +42,7 @@ void TestFFTDisplay::paintEvent(QPaintEvent *)
         for(uint16_t i=0;i<4096;i++)
         {
             //Draw the function itself
-            myPainter.drawLine(QPoint((double)i/2048*width(),height()-m_Controller->getFFT()->get_magnitude(i)/m_Controller->getFFT()->get_magnitude_max()*height()),QPoint((double)i/2048*width(),width()));
+            myPainter.drawLine(QPoint((double)i/2048*width(),height()-m_Controller->getFFT()->getMagnitude(i)/m_Controller->getFFT()->getMaxMagnitude()*height()),QPoint((double)i/2048*width(),width()));
         }
         uint16_t bands=m_Controller->getAnalyser()->getBands();
         for(uint16_t i=0;i<bands;i++)
@@ -59,7 +59,7 @@ void TestFFTDisplay::paintEvent(QPaintEvent *)
             myPainter.setBrush(Qt::magenta);
             myPainter.setPen(Qt::NoPen);
             //Draw beat detection level
-            myPainter.drawRect(QRectF(QPoint((double)i/bands*width(),(height()-m_Controller->getAnalyser()->getBand(i)->getAllTimeMaximumRaw()/m_Controller->getFFT()->get_magnitude_max()*height())),QSizeF(width()*0.005,width()*0.005)));
+            myPainter.drawRect(QRectF(QPoint((double)i/bands*width(),(height()-m_Controller->getAnalyser()->getBand(i)->getCurrentMaximumRaw()/m_Controller->getFFT()->getMaxMagnitude()*height())),QSizeF(width()*0.005,width()*0.005)));
         }
         //Draw drum beat
         if(m_Controller->getAnalyser()->getDrumBeat())
@@ -111,4 +111,13 @@ void TestFFTDisplay::processCustom(QSet<uint16_t> myBeats)
     {
             qDebug("Custom beat at %d Hz\n",i.next());
     }
+}
+void TestFFTDisplay::windowFunctionChanged(const QString &arg1)
+{
+    if (arg1 == "No Window")
+        m_Controller->getFFT()->setWindowFunction(libbeat::NO_WINDOW);
+    if (arg1 == "Hanning")
+        m_Controller->getFFT()->setWindowFunction(libbeat::HANNING);
+    if (arg1 == "Blackman")
+        m_Controller->getFFT()->setWindowFunction(libbeat::BLACKMAN);
 }

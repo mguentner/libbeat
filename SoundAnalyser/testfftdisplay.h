@@ -43,7 +43,7 @@ private slots:
     void processSnare();
     void processDrum();
     void processCustom(QSet<uint16_t> myBeats);
-
+    void windowFunctionChanged(const QString &arg1);
 };
 
 #endif // TESTFFTDISPLAY_H

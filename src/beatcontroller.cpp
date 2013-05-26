@@ -72,7 +72,7 @@ void BeatController::processNewData()
 {
     if(m_enabled)
     {
-        m_FFT->process_data();
+        m_FFT->processData();
         m_Analyser->processData();
         emit processingDone();
         if(m_Analyser->getDrumBeat())

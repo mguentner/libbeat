@@ -28,6 +28,8 @@
 #include "fft.h"
 #include "soundbuffer.h"
 #include "beatanalyser.h"
+
+#include <stdint.h>
 #include <QObject>
 #include <QTimerEvent>
 #include <QSet>
