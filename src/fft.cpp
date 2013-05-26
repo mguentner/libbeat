@@ -30,7 +30,7 @@ FFT::FFT(uint16_t size=0)
     m_outputSignal = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * size);
     m_inputSignal = new double[size];
     m_SoundBuffer = NULL;
-
+    m_windowFunction = BLACKMAN;
 }
 FFT::~FFT()
 {
@@ -49,29 +49,30 @@ void FFT::process_data()
     fftw_plan plan_forward;
     plan_forward = fftw_plan_dft_r2c_1d(m_size, m_inputSignal, m_outputSignal , 0);
     //fill our array with data and apply windows if needed
-#ifdef USE_BLACKMAN
-    for(uint16_t i=0; i<m_size; i++)
+    switch (m_windowFunction)
     {
-        double a0 = (1-0.16)/2;
-        double a1 = 0.5;
-        double a2 = 0.16/2;
-        int16_t temp = m_SoundBuffer->read(i);
-        m_inputSignal[i] = a0-a1*cos((2*M_PI*temp)/(m_size-1))+a2*cos((4*M_PI*temp)/(m_size-1));
+    case(NO_WINDOW):
+        for(uint16_t i=0; i<m_size;i++)
+        {
+            m_inputSignal[i]=(double)m_SoundBuffer->read(i);
+        }
+        break;
+    case(HANNING):
+        for(uint16_t i=0; i<m_size; i++)
+        {
+            m_inputSignal[i] = (double)m_SoundBuffer->read(i) * 0.5*(1.00-cos((2*M_PI*i)/(m_size-1)));
+        }
+        break;
+    case(BLACKMAN):
+        for(uint16_t i=0; i<m_size; i++)
+        {
+            double a0 = (1-0.16)/2;
+            double a1 = 0.5;
+            double a2 = 0.16/2;
+            m_inputSignal[i] = (double)m_SoundBuffer->read(i) * a0-a1*cos((2*M_PI*i)/(m_size-1))+a2*cos((4*M_PI*i)/(m_size-1));
+        }
+        break;
     }
-#endif
-#ifdef USE_HANNING
-    for(uint16_t i=0; i<m_size; i++)
-    {
-        m_inputSignal[i] = 0.5*(1.00-cos((2*M_PI*m_SoundBuffer->read(i))/(m_size-1)));
-    }
-#endif
-#ifdef USE_NO_WINDOW
-    for(uint16_t i=0; i<m_size;i++)
-    {
-        m_inputSignal[i]=(double)m_SoundBuffer->read(i);
-    }
-#endif
-
     fftw_execute(plan_forward);
     fftw_destroy_plan(plan_forward);
     //Calculate Magnitude
@@ -113,5 +114,15 @@ double FFT::get_magnitude(uint16_t pos)
 double FFT::get_magnitude_max()
 {
     return m_maxMagnitude;
+}
+
+void FFT::setWindowFunction(libbeat::WindowFunction windowFunction)
+{
+    m_windowFunction = windowFunction;
+}
+
+WindowFunction FFT::getWindowFunction()
+{
+    return m_windowFunction;
 }
 } //namespace libbeat

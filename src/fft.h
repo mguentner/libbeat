@@ -17,24 +17,11 @@
 */
 #ifndef FFT_H
 #define FFT_H
+#include <QObject>
 #include <fftw3.h>
 #include <inttypes.h>
 #include <cmath>
 #include "soundbuffer.h"
-/*! \def USE_NO_WINDOW
-    no window ( http://en.wikipedia.org/wiki/Window_function ) will be used when filling the input array
-*/
-
-/*! \def USE_BLACKMAN
-    the Blackman window will be used when filling the input array ( http://en.wikipedia.org/wiki/Window_function#Blackman_windows )
-*/
-
-/*! \def USE_HANNING
-    the Hanning window will be used when filling the input array ( http://en.wikipedia.org/wiki/Window_function#Hann_window )
-*/
-
-#define USE_NO_WINDOW
-
 /*! \def CLEAR_NOISE
     the FFT results can be misleading for the frequency band 0-30Hz) - this define will just set this to 0
 */
@@ -42,6 +29,12 @@
 
 namespace libbeat
 {
+
+enum WindowFunction {
+    NO_WINDOW, /*! no window ( http://en.wikipedia.org/wiki/Window_function ) will be used when filling the input array */
+    BLACKMAN, /*! the Blackman window will be used when filling the input array ( http://en.wikipedia.org/wiki/Window_function#Blackman_windows ) */
+    HANNING /*! the Hanning window will be used when filling the input array ( http://en.wikipedia.org/wiki/Window_function#Hann_window ) */
+};
 
 class FFT
 {
@@ -83,7 +76,21 @@ public:
         provides the highest magnitude of the whole signal. This can be used for scaling graphs
         @return highest magnitude
     */
-    double get_magnitude_max();
+    double getMaxMagnitude();
+
+    /*!
+        sets the windowFunction
+        @param windowFunction the WindowFunction to be used when processing the input data
+        @see WindowFunction
+    */
+    void setWindowFunction(WindowFunction windowFunction);
+
+    /*!
+        @return the current windowFunction
+        @see WindowFunction
+    */
+    WindowFunction getWindowFunction();
+
 
 private:
     /*! the SoundBuffer from where FFT gets new data */
@@ -98,6 +105,7 @@ private:
     double m_maxMagnitude;
     /*! the results of fftw */
     fftw_complex *m_outputSignal;
+    WindowFunction m_windowFunction;
 };
 }
 
