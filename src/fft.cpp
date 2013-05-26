@@ -38,7 +38,7 @@ FFT::~FFT()
     delete [] m_magnitude;
     fftw_free(m_outputSignal);
 }
-void FFT::process_data()
+void FFT::processData()
 {
     if(m_SoundBuffer == NULL)
     {
@@ -90,28 +90,28 @@ void FFT::process_data()
             m_maxMagnitude=m_magnitude[i];
     }
 }
-double FFT::get_element_i(uint16_t pos)
+double FFT::getElement_i(uint16_t pos)
 {
     if(pos < m_size)
         return m_outputSignal[pos][1];
     else
         return 0;
 }
-double FFT::get_element_r(uint16_t pos)
+double FFT::getElement_r(uint16_t pos)
 {
     if(pos < m_size)
         return m_outputSignal[pos][0];
     else
         return 0;
 }
-double FFT::get_magnitude(uint16_t pos)
+double FFT::getMagnitude(uint16_t pos)
 {
     if(pos < m_size/2)
         return m_magnitude[pos];
     else
         return 0;
 }
-double FFT::get_magnitude_max()
+double FFT::getMaxMagnitude()
 {
     return m_maxMagnitude;
 }

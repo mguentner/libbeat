@@ -53,25 +53,25 @@ public:
     /*!
         starts processing of new data if m_SoundBuffer is not NULL
     */
-    void process_data();
+    void processData();
     /*!
         provides access to the real part of the processed signal
         @param pos the position in the FFT, valid input is 0-(m_size-1)
         @return the value at the position. if the position is out of range, return will be 0
     */
-    double get_element_r(uint16_t pos);
+    double getElement_r(uint16_t pos);
     /*!
         provides access to the imaginary part of the processed signal
         @param pos the processed signal at pos, valid input is 0-(m_size-1)
         @return the value at pos. if pos is out of range, return will be 0
     */
-    double get_element_i(uint16_t pos);
+    double getElement_i(uint16_t pos);
     /*!
         provides access to the magnitude of the signal
         @param pos the processed signal at pos, valid input is 0-(m_size/2)
         @return the value at the pos. if pos is out of range, return will be 0
     */
-    double get_magnitude(uint16_t pos);
+    double getMagnitude(uint16_t pos);
     /*!
         provides the highest magnitude of the whole signal. This can be used for scaling graphs
         @return highest magnitude
