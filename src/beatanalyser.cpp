@@ -28,8 +28,8 @@ BeatAnalyser::BeatAnalyser(uint16_t num_bands, uint32_t samplerate, uint16_t rec
     m_SubBands = new QVector<SubBand*>;
     for(uint16_t i=0;i<num_bands;i++)
     {
-        /*Create a new subband with 4 seconds of history and 50% decrease of the allTimeMaximum after 2 seconds*/
-        SubBand *tmp = new SubBand(4*samplerate/recordsize, pow(0.5,(1/((double)samplerate/recordsize))));
+        /*Create a new subband with 8 seconds of history and 50% decrease of the allTimeMaximum after 2 seconds*/
+        SubBand *tmp = new SubBand(8*samplerate/recordsize, pow(0.50,(1/((double)samplerate/recordsize))));
         m_SubBands->append(tmp);
     }
     m_beats = new QVector<bool> (num_bands,false);
@@ -48,14 +48,21 @@ void BeatAnalyser::processData()
         double sum=0;
         for(uint16_t j=0;j<freq_per_band;j++)
         {
-            sum+=m_FFT->get_magnitude(i*freq_per_band+j);
+            sum+=m_FFT->getMagnitude(i*freq_per_band+j);
         }
         sum/=freq_per_band;
-        m_SubBands->at(i)->log(sum);
-        if(m_SubBands->at(i)->average() < sum && m_SubBands->at(i)->getAllTimeMaximum()*0.8 < sum)
+        if(m_SubBands->at(i)->average()*1.05 < sum)
         {
-            m_beats->replace(i,true);
+            if(m_SubBands->at(i)->getCurrentMaximum() < sum)
+            {
+                if(m_SubBands->at(i)->getAllTimeMaximium()*0.5 < sum)
+                {
+                    m_beats->replace(i,true);
+                }
+            }
         }
+        m_SubBands->at(i)->log(sum);
+
     }
 }
 bool BeatAnalyser::getBeat(uint16_t pos)
@@ -72,10 +79,10 @@ bool BeatAnalyser::getBeatFrequency(uint32_t frequency)
 }
 bool BeatAnalyser::getDrumBeat()
 {
-    /*We want to detect beats from 50Hz up to 200Hz*/
+    /*We want to detect beats from 30Hz up to 200Hz*/
     bool tmp=false;
     uint16_t freq_per_band=m_sampleRate/m_bandCount/2;
-    uint32_t low_limit=50/freq_per_band;
+    uint32_t low_limit=30/freq_per_band;
     uint32_t high_limit=200/freq_per_band;
     if(high_limit == 0)
        high_limit=1; /*If we have few bands, just take the first one*/
