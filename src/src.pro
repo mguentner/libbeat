@@ -21,3 +21,5 @@ HEADERS += subband.h \
     alsarecorder.h
 
 LIBS += -lasound -lfftw3 -lpulse-simple -lpulse
+target.path = /usr/lib
+INSTALLS += target
