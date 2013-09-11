@@ -25,8 +25,8 @@ BeatController::BeatController(QObject *parent, uint16_t recordSize, uint32_t sa
     m_Buffer = new SoundBuffer(recordSize);
     m_Analyser = new BeatAnalyser(m_bandCount,sampleRate,recordSize);
 #ifdef USE_ALSA
-    dynamic_cast<AlsaRecorder*>(myRecorder);
-    myRecorder = new AlsaRecorder(sampleRate,2,myBuffer,recordSize);
+    dynamic_cast<AlsaRecorder*>(m_Recorder);
+    m_Recorder = new AlsaRecorder(sampleRate,2,m_Buffer,recordSize);
 #endif
 #ifdef USE_PULSE
     dynamic_cast<PulseRecorder*>(m_Recorder);
